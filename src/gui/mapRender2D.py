@@ -19,7 +19,6 @@ class PlayerRenderer:
 
         img = self.img['test']
         self.rect = surface.blit(img, (x, y))
-        print('TEST')
 
 
 class CellRenderer:
@@ -97,6 +96,8 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
+            if event.type == pygame.MOUSEMOTION:
+
         window_surface.blit(background, (0, 0))
         renderer.draw(window_surface)
         pr.draw(window_surface)
