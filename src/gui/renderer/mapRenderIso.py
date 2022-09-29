@@ -1,36 +1,20 @@
 import os
 import pygame
+from math import sqrt
 from src.resources import resourcePath
-from src.core.game import Map, Player
-
-
-class PlayerRenderer:
-    img = {
-        'test': pygame.image.load(os.path.join(resourcePath, 'imgs', 'playerTest.png')),
-    }
-
-    def __init__(self, player):
-        self.player = player
-        self.rect = None
-
-    def draw(self, surface):
-        x = self.player.x * 64
-        y = self.player.y * 64
-
-        img = self.img['test']
-        self.rect = surface.blit(img, (x, y))
+from src.core.map import Map
 
 
 class CellRenderer:
 
     img = {
-        'X': pygame.image.load(os.path.join(resourcePath, 'imgs', 'tile1.png')),
-        '0': pygame.image.load(os.path.join(resourcePath, 'imgs', 'tile2.png')),
-        '1': pygame.image.load(os.path.join(resourcePath, 'imgs', 'tile3.png')),
-        '2': pygame.image.load(os.path.join(resourcePath, 'imgs', 'tile4.png')),
+        'X': pygame.image.load(os.path.join(resourcePath, 'imgs', 'fullBlock.png')),
+        '0': pygame.image.load(os.path.join(resourcePath, 'imgs', 'halfBlock.png')),
+        '1': pygame.image.load(os.path.join(resourcePath, 'imgs', 'ramp1Block.png')),
+        '2': pygame.image.load(os.path.join(resourcePath, 'imgs', 'ramp2Block.png')),
     }
 
-    tileHeight = 64
+    tileHeight = 32
     tileWidth = 64
     mapHeight = 5
     mapWidth = 4
@@ -40,11 +24,15 @@ class CellRenderer:
         self.rect = None
 
     def draw(self, surface):
-        x = self.cell.x * self.tileWidth
-        y = self.cell.y * self.tileHeight
+        x = (self.cell.x * self.tileWidth)/2 \
+            + (self.mapHeight * self.cell.x)/2 \
+            - (self.cell.y * self.tileWidth)/2
+        y = (self.mapHeight-self.cell.y-1)*self.tileHeight/2 \
+            + self.mapWidth*self.tileHeight/2 \
+            - self.cell.x*self.tileHeight/2
 
         img = self.img[self.cell.type]
-        self.rect = surface.blit(img, (x, y))
+        self.rect = surface.blit(img, (x+300, y))
 
     def update(self):
         pass
@@ -85,9 +73,6 @@ if __name__ == '__main__':
     path = os.path.join(resourcePath, 'maps', 'map.txt')
     renderer = MapRenderer(path)
 
-    p = Player(1, 3)
-    pr = PlayerRenderer(p)
-
     background = pygame.Surface((800, 600))
     background.fill(pygame.Color('#000000'))
 
@@ -96,11 +81,8 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
-            if event.type == pygame.MOUSEMOTION:
-
         window_surface.blit(background, (0, 0))
         renderer.draw(window_surface)
-        pr.draw(window_surface)
         pygame.display.update()
 
 

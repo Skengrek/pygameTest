@@ -1,3 +1,7 @@
+"""
+All class representing a Map
+"""
+
 import os
 from src.resources import resourcePath
 
@@ -31,13 +35,6 @@ class Map:
                 self.cells[-1].append(Cell(cell, x, y))
                 x += 1
             y += 1
-
-
-class Player:
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
 
 
 # Test
