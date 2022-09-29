@@ -1,7 +1,7 @@
 import pygame
-from gui.menu import Dropdown
-from gui.button import Button
-from gui.layouts import HLayout as Layout
+from src.gui.widgets.menu import Dropdown
+from src.gui.widgets.button import Button
+from src.gui.widgets.layouts import HLayout as Layout
 from core.gameloop import startGameLoop
 
 
